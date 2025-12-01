@@ -1,0 +1,5 @@
+{
+  "name": "GoNote React",
+  "description": "A feature-rich notepad application with tabbed browsing, groups, cloud sync, and AI assistance powered by Gemini.",
+  "requestFramePermissions": []
+}

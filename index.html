@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoNote React</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: 'var(--bg-color)',
+                        surface: 'var(--surface-color)',
+                        primary: 'var(--primary-color)',
+                        tab: 'var(--tab-color)',
+                        text: 'var(--text-color)',
+                        'text-sec': 'var(--text-secondary)',
+                        border: 'var(--border-color)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base Theme Variables Default (Dark) */
+        :root {
+            --bg-color: #1E1E2E;
+            --surface-color: #282839;
+            --primary-color: #89B4FA;
+            --secondary-color: #CBA6F7;
+            --text-color: #CDD6F4;
+            --text-secondary: #A6ADC8;
+            --border-color: #45475A;
+            --tab-color: #313244;
+            --hover-color: #45475A;
+            --success-color: #A6E3A1;
+            --error-color: #F38BA8;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--surface-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--hover-color);
+        }
+        
+        .secret-glow {
+            animation: secretPulse 3s infinite;
+        }
+        
+        @keyframes secretPulse {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="h-screen w-screen overflow-hidden text-sm transition-colors duration-200">
+    <div id="root" class="h-full w-full flex flex-col"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
