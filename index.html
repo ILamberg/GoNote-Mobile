@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -23,56 +24,78 @@
                         text: 'var(--text-color)',
                         'text-sec': 'var(--text-secondary)',
                         border: 'var(--border-color)',
+                        hover: 'var(--hover-color)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.2s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Base Theme Variables Default (Dark) */
+        /* Modern Zinc-based Theme */
         :root {
-            --bg-color: #1E1E2E;
-            --surface-color: #282839;
-            --primary-color: #89B4FA;
-            --secondary-color: #CBA6F7;
-            --text-color: #CDD6F4;
-            --text-secondary: #A6ADC8;
-            --border-color: #45475A;
-            --tab-color: #313244;
-            --hover-color: #45475A;
-            --success-color: #A6E3A1;
-            --error-color: #F38BA8;
+            --bg-color: #09090B;       /* Zinc 950 */
+            --surface-color: #18181B;  /* Zinc 900 */
+            --primary-color: #60A5FA;  /* Blue 400 */
+            --text-color: #F4F4F5;     /* Zinc 100 */
+            --text-secondary: #A1A1AA; /* Zinc 400 */
+            --border-color: #27272A;   /* Zinc 800 */
+            --tab-color: #18181B;      /* Zinc 900 */
+            --hover-color: #27272A;    /* Zinc 800 */
+            --success-color: #4ADE80;  /* Green 400 */
+            --error-color: #F87171;    /* Red 400 */
         }
         
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Custom Scrollbar */
+        /* Modern Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--surface-color);
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--border-color);
-            border-radius: 4px;
+            border-radius: 3px;
+            transition: background 0.2s;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--hover-color);
+            background: var(--text-secondary);
+        }
+        
+        /* Selection Color */
+        ::selection {
+            background-color: rgba(96, 165, 250, 0.2);
+            color: inherit;
         }
         
         .secret-glow {
-            animation: secretPulse 3s infinite;
+            animation: secretPulse 3s infinite cubic-bezier(0.4, 0, 0.6, 1);
         }
         
         @keyframes secretPulse {
-            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
-            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
-            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.2); }
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.1); border-color: rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); border-color: rgba(255, 215, 0, 0.6); }
         }
 
         .no-scrollbar::-webkit-scrollbar {
@@ -81,6 +104,13 @@
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+        
+        /* Glass effect utility */
+        .glass {
+            background: rgba(24, 24, 27, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
     </style>
 
@@ -96,9 +126,9 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/GoNote-Mobile/assets/index-Cnl8R21q.js"></script>
+  <script type="module" crossorigin src="/GoNote-Mobile/assets/index-ztGwiOg_.js"></script>
 </head>
-<body class="h-screen w-screen overflow-hidden text-sm transition-colors duration-200">
+<body class="h-screen w-screen overflow-hidden text-sm transition-colors duration-300 ease-in-out">
     <div id="root" class="h-full w-full flex flex-col"></div>
 </body>
 </html>
