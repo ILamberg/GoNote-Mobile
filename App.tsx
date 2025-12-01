@@ -65,21 +65,23 @@ const AppContent: React.FC = () => {
             setIsSyncing(true);
             setSyncMessage('Uploading...');
             
-            // 1. Filter out Secret/Recipe tabs
+            // 1. Filter out Secret/Recipe tabs - NEVER save them to standard cloud file
             const recipeGroup = state.groups.find(g => g.name === 'Recipe');
             const recipeGroupId = recipeGroup?.id;
 
+            // Filter tabs
             const tabsToSave = state.tabs
                 .filter(t => t.groupId !== recipeGroupId)
                 .map(t => ({
                     ...t,
                     // Ensure we grab the absolute latest content from localStorage if available
+                    // This mirrors script.js "Source of Truth" logic
                     content: localStorage.getItem(`tabContent-${t.id}`) || t.content || ''
                 }));
 
+            // Filter groups (remove secret tab IDs from group lists)
             const groupsToSave = state.groups.map(g => ({
                 ...g,
-                // Filter secret tabs out of group tabIds as well
                 tabIds: g.tabIds.filter(tid => tabsToSave.some(t => t.id === tid))
             }));
 
@@ -91,7 +93,7 @@ const AppContent: React.FC = () => {
                 timestamp: new Date().toISOString(),
                 activeTab: state.activeTabId,
                 activeGroupFilters: state.activeGroupFilters,
-                // Redundant top-level keys for script.js compatibility
+                // Redundant top-level keys for script.js/legacy compatibility
                 theme: state.settings.theme,
                 primaryColor: state.settings.primaryColor,
                 gridPatternEnabled: state.settings.gridPatternEnabled,
@@ -124,7 +126,7 @@ const AppContent: React.FC = () => {
             
             if (data) {
                 // 1. Sync content to localStorage immediately (Source of Truth)
-                // This is crucial so that even if state takes a moment, the data is persisted
+                // Crucial step: ensure localStorage is populated before state update
                 if (data.tabs) {
                     data.tabs.forEach((t: any) => {
                         localStorage.setItem(`tabContent-${t.id}`, t.content || '');
@@ -132,10 +134,10 @@ const AppContent: React.FC = () => {
                 }
                 
                 // 2. Handle Settings merging (Cloud settings + Legacy root props)
+                // script.js supports root-level properties for older versions
                 const mergedSettings = {
                     ...state.settings,
                     ...(data.settings || {}),
-                    // Apply legacy root properties if they exist (overwriting settings obj)
                     theme: data.theme || data.settings?.theme || state.settings.theme,
                     primaryColor: data.primaryColor || data.settings?.primaryColor || state.settings.primaryColor,
                     gridPatternEnabled: (data.gridPatternEnabled !== undefined) ? data.gridPatternEnabled : (data.settings?.gridPatternEnabled ?? state.settings.gridPatternEnabled),
@@ -151,7 +153,7 @@ const AppContent: React.FC = () => {
                     settings: mergedSettings
                 }});
 
-                // 4. Update LocalStorage for metadata immediately
+                // 4. Update LocalStorage for metadata immediately to persist state
                 localStorage.setItem('tabs', JSON.stringify(data.tabs || []));
                 localStorage.setItem('groups', JSON.stringify(data.groups || []));
                 localStorage.setItem('settings', JSON.stringify(mergedSettings));

@@ -111,6 +111,7 @@ const reducer = (state: AppState, action: Action): AppState => {
             }));
 
             // 3. Check if the deleted tab's group is now empty (Auto-fill Logic)
+            // We check if the tab had a groupId, and if so, if that group in newGroups now has 0 tabs
             if (tabToDelete.groupId) {
                 const groupIndex = newGroups.findIndex(g => g.id === tabToDelete.groupId);
                 // Check tabs array for any remaining tabs with this groupId
@@ -121,7 +122,7 @@ const reducer = (state: AppState, action: Action): AppState => {
                     const newTabId = `tab-${Date.now()}`;
                     const newTab: Tab = {
                         id: newTabId,
-                        name: newGroups[groupIndex].name, // Use group name
+                        name: newGroups[groupIndex].name, // Use group name as default
                         content: '',
                         color: newGroups[groupIndex].color || '#333333',
                         groupId: tabToDelete.groupId,
@@ -150,6 +151,7 @@ const reducer = (state: AppState, action: Action): AppState => {
             
             if (state.activeTabId === tabToDeleteId) {
                 // If we auto-created a tab (it won't be in the old state), switch to it
+                // We find the new tab by checking which ID exists in newTabs but not in state.tabs
                 const newlyCreatedTab = newTabs.find(nt => !state.tabs.some(ot => ot.id === nt.id));
                 
                 if (newlyCreatedTab) {
